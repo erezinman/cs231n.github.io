@@ -120,3 +120,4 @@ runs/
 temp*
 debug_*
 *.swp
+/assignments/2020/assignment1_jupyter/assignment1/cs231n/datasets/cifar-10-batches-py/

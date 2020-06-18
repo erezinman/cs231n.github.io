@@ -80,7 +80,7 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        scores = np.maximum(X @ W1 + b1, 0) @ W2 + b2
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -98,7 +98,13 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+        exp_result = np.exp(scores)
+        denominator = np.sum(exp_result, axis=1)
+        softmax = exp_result / denominator.reshape((-1, 1))
+        assert np.abs(np.mean(np.sum(softmax, axis=1)) - 1) == 0
+
+        relevant_numerators = softmax[np.arange(N), y]
+        loss = -np.sum(np.log(relevant_numerators)) / N + reg * (np.sum(W1 ** 2) + np.sum(W2 ** 2))
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -111,7 +117,10 @@ class TwoLayerNet(object):
         #############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        pass
+
+        #
+        # indicators = np.diag(np.ones(W.shape[1]))[y]
+        # dW[:, :] = - X.T @ (indicators - softmax) / N + 2 * reg * W
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
